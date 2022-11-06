@@ -8,7 +8,7 @@ body{
     background-color: rgb(168,142,215);
 }
 form{
-width: 20vw;
+width: 30vw;
 height: 250px;
 margin: auto;
 margin-top: 50px;
@@ -65,4 +65,38 @@ label{
 }
 .timeBox{
     display: flex;
+}
+.errorAlert{
+    color: red;
+    font-size: 10px;
+    margin-left: 10%;
+}
+.GraphContainer{
+    display: flex;
+    justify-content: center;
+    width: 50vw;
+    height: 400px;
+    margin: auto;
+}
+@media all and (max-width:425px){
+    form{
+        width: 60vw;
+    }
+    .submitButton{
+        font-size: 3vw;
+    }
+    .GraphContainer{
+        width: 90vw;
+        height: 200px;
+    }
+}
+
+@media all and (min-width:426px) and (max-width:1024px){
+    form{
+        width: 50vw;
+    }
+    .GraphContainer{
+        width: 80vw;
+        height: 400px;
+    }
 }
