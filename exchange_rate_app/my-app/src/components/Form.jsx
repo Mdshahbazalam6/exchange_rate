@@ -7,7 +7,10 @@ const Form = () => {
         name:'',
         email:''
     })
-
+   
+    const[nameError, setNameError] = useState(true)
+    const[emailError, setEmailError] = useState(true)
+   
     const[show, setShow] = useState(false)
     const[data,setData] = useState()
 
@@ -17,9 +20,12 @@ const Form = () => {
     // console.log(state)
     const handleSubmit= ( e ) =>{
         e.preventDefault()
-        let res = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-        alert(res.test(state.email))
-        // if(!alert(res.test(state.email)))return
+ 
+       
+       let result = validate()
+
+        if(result === false)return
+
         setShow(true)
         setState({
             name:'',
@@ -28,7 +34,7 @@ const Form = () => {
         let currentDate = new Date()
         let hours = currentDate.getHours() 
         let mins = currentDate.getMinutes() 
-        console.log(hours)
+        // console.log(hours)
         getGraphData(hours,mins)
     }
    
@@ -57,6 +63,18 @@ const Form = () => {
      }
     }
 
+
+    function validate ( ){
+        let res = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        let nameregex = /(^[a-zA-Z][a-zA-Z\s]{0,20}[a-zA-Z]$)/;
+        let name = (nameregex.test(state.name))
+        let email = (res.test(state.email))
+
+        setNameError(name)
+        setEmailError(email)
+        console.log(name,email)
+        return name,email
+    }
     console.log(data)
 
   return (
@@ -65,6 +83,7 @@ const Form = () => {
         <div className="formHeading">
             <h3>WELCOME !</h3>
         </div>
+
         <br />
         <label >Enter Your Name</label><br />
         <input type="text" 
@@ -72,25 +91,32 @@ const Form = () => {
         name='name'
         onChange={handleChange}
         value={state.name}
-        className='inputfield'/><br/><br />
+        className='inputfield'/>
+
+       {nameError ? '' : <p style={{color:'red',fontSize:'10px',marginLeft:'10%'}}>Enter Valid name</p> }
+        <br/><br />
+
         <label >Enter Your Email</label><br />
+
         <input type="email" 
         autoComplete='off'
         name='email'
         onChange={handleChange}
         value={state.email}
         className='inputfield'/><br/>
+
+        {emailError ? '' : <p style={{color:'red',fontSize:'10px',marginLeft:'10%'}}>Enter Valid Email</p> }
+
         <input type="submit"
         className='submitButton' />
+
     </form>
     {show ? <Graph /> : ''}
     <div className="clickTime">
         
         <div className="timeBox">
-        {hours < 10 ? <h3 >{`Last Click was made at 0${hours}:`} </h3> : <h3 >{`Last Click was made at ${hours}:`} </h3>}
-        {mins < 10 ? <h3 >{` 0${mins}`} </h3> : <h3 >{` ${mins}`} </h3>}
         {
-           !data ? '' : data.hour-data.oldHour > 0  ? <h3>{` ${data.hour-data.oldHour} hour ago`}</h3> : <h3>{` ${data.minutes - data.oldMinute} minutes ago`}</h3>
+           !data ? '' : data.oldHour === 0 ?<h3>Last Click was made Just now</h3> : data.hour-data.oldHour === 1 ? <h3>Last Click was made {` ${60-data.oldMinute+data.minutes} minutes ago`}</h3> : data.hour-data.oldHour > 1  ? <h3>Last Click was made {` ${data.hour-data.oldHour} hour ago`}</h3> : <h3>Last Click was made {` ${data.minutes - data.oldMinute} minutes ago`}</h3>
         }
         </div>
         </div>
