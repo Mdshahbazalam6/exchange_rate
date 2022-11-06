@@ -10,10 +10,7 @@ const Graph = () => {
         {name:"AMD",rate:6},
         {name:"ANG",rate:9}
     ]
-    let currentDate = new Date()
-    let hours = currentDate.getHours() 
-    let mins = currentDate.getMinutes() 
-   console.log(hours)
+    
   return (
     <>
     <div style={{display:'flex',justifyContent:"center"}}>
@@ -29,13 +26,7 @@ const Graph = () => {
         </ResponsiveContainer>
 
     </div>
-        <div className="clickTime">
-        
-        <div className="timeBox">
-        {hours < 10 ? <h3 >{`Last Click was made at 0${hours}:`} </h3> : <h3 >{`Last Click was made at ${hours}:`} </h3>}
-        {mins < 10 ? <h3 >{` 0${mins}`} </h3> : <h3 >{` ${mins}`} </h3>}
-        </div>
-        </div>
+    
     </>
   )
 }

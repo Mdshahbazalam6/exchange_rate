@@ -6,14 +6,19 @@ import bodyparser from 'body-parser'
 
 app.use(cors())
 
-app.get('/',(req,res)=>{
-let body = req.body
-let oldHour = cache.hour
-let minutes = cache.minutes
-cache.hour = body.hour
-cache.minutes = cache.minutes
+var cache = {
+  hour:0,minutes:0,oldHour:0,oldMinute:0
+};
 
-res.send(cache)}
+app.post('/',bodyparser.json(),(req,res)=>{
+let body = req.body
+console.log(body)
+cache.oldHour = cache.hour
+cache.oldMinute = cache.minutes
+cache.hour = body.hrs
+cache.minutes = body.mns
+
+res.send({cache})}
 )
 // var requestOptions = {
 //   method: 'GET',
@@ -28,8 +33,6 @@ res.send(cache)}
 //   .then(result => res.status(200).send(result))
 //   .catch(error => console.log('error', error));      
 // })
-
-var cache = {};
 
 app.get('/getrates', bodyparser.json(),function(req, res, next) {
     var requestOptions = {
